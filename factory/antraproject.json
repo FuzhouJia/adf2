@@ -1,0 +1,9 @@
+{
+	"name": "antraproject",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "25f5a5a4-0a9b-4e3d-a750-b81167b055f8",
+		"tenantId": "1ecb41ba-4469-43ea-ab38-a941a0bbd79f"
+	}
+}
