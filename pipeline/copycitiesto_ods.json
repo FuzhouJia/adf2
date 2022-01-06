@@ -145,7 +145,7 @@
 				]
 			},
 			{
-				"name": "Copy data1",
+				"name": "Copycities",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
