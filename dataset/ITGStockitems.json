@@ -1,0 +1,12 @@
+{
+	"name": "ITGStockitems",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabaseitg",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}
