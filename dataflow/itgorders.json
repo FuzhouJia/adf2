@@ -1,0 +1,65 @@
+{
+	"name": "itgorders",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "DimCustomers"
+				},
+				{
+					"name": "DimCities"
+				},
+				{
+					"name": "Dimstockitems"
+				},
+				{
+					"name": "ODSOrders"
+				},
+				{
+					"name": "ODSOrderlines"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectcustomers"
+				},
+				{
+					"name": "SelectCities"
+				},
+				{
+					"name": "SelectStockitems"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Select5"
+				},
+				{
+					"name": "Join3"
+				},
+				{
+					"name": "Select6"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> DimCustomers\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> DimCities\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> Dimstockitems\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> ODSOrders\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> ODSOrderlines\nDimCustomers select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> selectcustomers\nDimCities select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectCities\nDimstockitems select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> SelectStockitems\nODSOrderlines select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nODSOrders select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1, Select2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 derive() ~> DerivedColumn1\nDerivedColumn1 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect3, selectcustomers join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nSelect5, SelectCities join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join3\nJoin3 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select6"
+		}
+	}
+}
