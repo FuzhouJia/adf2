@@ -1,0 +1,69 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "ODSCustomer"
+				},
+				{
+					"name": "ODSPeople"
+				},
+				{
+					"name": "sinkcustomers"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink2"
+				},
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "Select1"
+				},
+				{
+					"name": "Join1"
+				},
+				{
+					"name": "Select3"
+				},
+				{
+					"name": "Join2"
+				},
+				{
+					"name": "Select4"
+				},
+				{
+					"name": "Lookup1"
+				},
+				{
+					"name": "ExistingRows"
+				},
+				{
+					"name": "Select6"
+				},
+				{
+					"name": "DerivedColumn1"
+				},
+				{
+					"name": "AlterRow1"
+				},
+				{
+					"name": "addingisactive"
+				},
+				{
+					"name": "Select2"
+				},
+				{
+					"name": "Select5"
+				}
+			],
+			"script": "source(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> ODSCustomer\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> ODSPeople\nsource(allowSchemaDrift: true,\n\tvalidateSchema: false) ~> sinkcustomers\nODSCustomer select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select1\nSelect1 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join1\nJoin1 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select3\nSelect3 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tjoinType:'inner',\n\tbroadcast: 'auto')~> Join2\nJoin2 select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select4\nSelect4 lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),\n\tmultiple: false,\n\tpickup: 'any',\n\tbroadcast: 'auto')~> Lookup1\nLookup1 filter(ERROR_FUNCTION('')) ~> ExistingRows\nExistingRows select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select6\nSelect6 derive() ~> DerivedColumn1\nDerivedColumn1 alterRow() ~> AlterRow1\nSelect4 derive() ~> addingisactive\nODSPeople select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select2\nsinkcustomers select(skipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Select5\nAlterRow1 sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink2\naddingisactive sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> sink1"
+		}
+	}
+}
